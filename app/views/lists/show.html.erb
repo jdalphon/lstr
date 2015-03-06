@@ -1,0 +1,51 @@
+<div class="col-md-6">
+  <h2><%= @list.title %></h2>
+  <h4><%= @list.description %></h4>
+  <hr/>
+  <div id="lister">
+ 
+    <div class="col-md-6">
+      <label>Search:</label><input class="search form-control"><br/>
+    </div>
+    <div class="col-md-12">
+      <ul class="list">
+	<% @list.items.each do |item| %>
+	  <li class='list_item'><div class="title"><%= item.title %></div></li>
+	<% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-4 col-md-offset-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>Add Item</h3>
+    </div>
+    <div class="panel-body">
+      <%= form_for(@new_item) do |i| %>
+	<div class="field">
+	  <%= i.label :title %><br>
+	  <%= i.text_field :title, class: 'form-control'%>
+	</div>
+	<%= hidden_field_tag 'item[user_id]', current_user.id%>
+	<%= hidden_field_tag 'item[list_id]', @list.id%>
+	<div class="actions">
+	  <%= i.submit 'Create', class: 'btn btn-success' %>
+	</div>
+      <% end %>
+    </div>
+  </div>
+
+</div>
+<div class="col-md-12">
+  <%= link_to 'Edit', edit_list_path(@list) %> |
+  <%= link_to 'Back', lists_path %>
+</div>
+
+<script type='text/javascript'>
+  $(window).load(function(){
+    var options = { valueNames: ['title'], page: 200};
+    var titleList = new List("lister", options);
+  });
+</script>
